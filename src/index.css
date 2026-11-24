@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-canvas: oklch(0.985 0.006 168);
+  --bg-surface: oklch(1 0 0);
+  --bg-surface-alt: oklch(0.958 0.012 178);
+  --bg-glass: oklch(0.99 0.005 170 / 0.78);
+  --text-primary: oklch(0.21 0.036 190);
+  --text-muted: oklch(0.46 0.025 190);
+  --accent-teal: oklch(0.74 0.125 192);
+  --accent-teal-deep: oklch(0.48 0.11 192);
+  --accent-clay: oklch(0.61 0.135 38);
+  --border-subtle: oklch(0.90 0.014 185);
+  --shadow-soft: 0 18px 44px -18px oklch(0.25 0.04 190 / 0.12);
+  --radius-card: 24px;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  --bg-canvas: oklch(0.145 0.016 194);
+  --bg-surface: oklch(0.195 0.018 194);
+  --bg-surface-alt: oklch(0.235 0.02 194);
+  --bg-glass: oklch(0.16 0.018 194 / 0.8);
+  --text-primary: oklch(0.96 0.008 175);
+  --text-muted: oklch(0.74 0.016 185);
+  --accent-teal: oklch(0.76 0.125 192);
+  --accent-teal-deep: oklch(0.68 0.12 192);
+  --accent-clay: oklch(0.69 0.135 40);
+  --border-subtle: oklch(0.29 0.02 194);
+  --shadow-soft: 0 20px 48px -18px oklch(0 0 0 / 0.45);
+}
+
+@layer base {
+  html {
+    font-family: "IBM Plex Sans Arabic", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  html[lang="en"] {
+    font-family: "Plus Jakarta Sans", "IBM Plex Sans Arabic", system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-teal-deep);
+    outline-offset: 2px;
+  }
+}
+
+.fluid-hero-title {
+  font-size: clamp(2.4rem, 7vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .fluid-hero-title {
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+  }
+}
+
+.fluid-section-title {
+  font-size: clamp(1.75rem, 3.2vw, 2.85rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.bg-botanical-mesh {
+  background-image:
+    radial-gradient(at 15% 18%, oklch(0.74 0.125 192 / 0.13) 0px, transparent 48%),
+    radial-gradient(at 85% 24%, oklch(0.61 0.135 38 / 0.10) 0px, transparent 45%),
+    radial-gradient(at 50% 85%, oklch(0.74 0.125 192 / 0.08) 0px, transparent 52%);
+}
+
+/* Dedicated clean hero gradient mesh (light + dark variants) */
+.hero-surface-bg {
+  background-color: #eef9f8;
+  background-image: linear-gradient(135deg, #f3fbfa 0%, #e1f4f2 55%, #d6efec 100%);
+}
+
+.dark .hero-surface-bg {
+  background-color: #06262b;
+  background-image: linear-gradient(135deg, #06262b 0%, #08383f 52%, #0b4a50 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hint-touch-only {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .hint-pointer-only {
+    display: none;
+  }
+  .hint-touch-only {
+    display: block;
+  }
+}
+
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Marquee Ticker */
+@keyframes marquee-rtl {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+@keyframes marquee-ltr {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-ltr {
+  animation: marquee-ltr 28s linear infinite;
+}
+
+.animate-marquee-rtl {
+  animation: marquee-rtl 28s linear infinite;
+}
+
+/* CSS Scroll-Driven Reveal */
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 28%;
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Reduced Motion Compliance */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee-ltr,
+  .animate-marquee-rtl,
+  .scroll-reveal {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
